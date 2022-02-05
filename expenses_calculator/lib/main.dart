@@ -10,46 +10,59 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
+      title: 'Personal Expenses',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        fontFamily: 'Quicksand',
+        appBarTheme:
+            AppBarTheme(),
+      ),
       home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final List<Transaction> _userTransactions = [
     Transaction(
         id: 't1', title: 'New shoes', amount: 69.99, date: DateTime.now()),
     Transaction(id: 't2', title: 'New boat', amount: 420, date: DateTime.now()),
   ];
-  
-  
-  void _addNewTransaction(String title, double amount){
-    final newTransaction = Transaction(title: title, amount: amount, date: DateTime.now(), id: DateTime.now().toString());
+
+  void _addNewTransaction(String title, double amount) {
+    final newTransaction = Transaction(
+        title: title,
+        amount: amount,
+        date: DateTime.now(),
+        id: DateTime.now().toString());
 
     setState(() {
       _userTransactions.add(newTransaction);
     });
   }
 
-  void _startAddNewTransaction(BuildContext ctx){
-    showModalBottomSheet(context: ctx, builder: (bCtx){
-      return NewTransaction(_addNewTransaction);
-    });
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (bCtx) {
+          return NewTransaction(_addNewTransaction);
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text(
+          'Personal Expenses',
+          style: TextStyle(fontFamily: 'OpenSans'),
+        ),
         actions: [
           IconButton(
             onPressed: () => _startAddNewTransaction(context),
@@ -76,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed:  () => _startAddNewTransaction(context),
+        onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }

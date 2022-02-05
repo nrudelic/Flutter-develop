@@ -22,6 +22,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
     widget.addTransaction(enteredTitle, enteredAmount);
 
+    // Close the modal screen (pop close what in focus)
     Navigator.of(context).pop();
   }
 
