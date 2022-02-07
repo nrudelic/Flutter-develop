@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/transaction.dart';
+import 'package:flutter_complete_guide/widgets/chart.dart';
 import 'package:flutter_complete_guide/widgets/new_transaction.dart';
 import 'package:flutter_complete_guide/widgets/transaction_list.dart';
+import 'package:intl/intl.dart';
 
 //12 video
 void main() => runApp(MyApp());
@@ -30,16 +32,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', title: 'New shoes', amount: 69.99, date: DateTime.now()),
-    Transaction(id: 't2', title: 'New boat', amount: 420, date: DateTime.now()),
+    //Transaction(
+    //    id: 't1', title: 'New shoes', amount: 69.99, date: DateTime.now()),
+    //Transaction(id: 't2', title: 'New boat', amount: 420, date: DateTime.now()),
   ];
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date) {
     final newTransaction = Transaction(
         title: title,
         amount: amount,
-        date: DateTime.now(),
+        date: date,
         id: DateTime.now().toString());
 
     setState(() {
@@ -53,6 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (bCtx) {
           return NewTransaction(_addNewTransaction);
         });
+  }
+
+  void _deleteTransaction(){
+    
+  }
+
+  List<Transaction> get _recentTransactions{
+    return _userTransactions.where((tx) {
+      return (tx.date as DateTime).isAfter(
+        DateTime.now().subtract(
+          Duration(days:7)));
+    }).toList();
   }
 
   @override
@@ -74,16 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         //mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            width: double.infinity,
-            child: Card(
-              child: Container(
-                child: Text('Chart!'),
-                width: 100,
-              ),
-              elevation: 5,
-            ),
-          ),
+          Chart(_recentTransactions),
           TransactionList(_userTransactions),
         ],
       ),
